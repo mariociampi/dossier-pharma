@@ -16,12 +16,15 @@ Description: "Profilo MedicationDispense per Dossier Farmaceutico"
 * identifier 0..1  
 * identifier.system 0..1
 * identifier.value 0..1
+* identifier ^short = "Identificativo univoco della risorsa"
 
 * ^text.status = #additional
 * ^text.div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><a>Profilazione della MedicationDispense per il Dossier Farmaceutico</a></div>"
 * status MS
+* status ^short = "Valorizzato con complete"
 
 * medicationCodeableConcept 0..1
+* medicationCodeableConcept ^short = "Prodotto farmaceutico erogato"
 
 * medicationCodeableConcept.coding 1.. MS
   * system 1.. MS
@@ -32,25 +35,29 @@ Description: "Profilo MedicationDispense per Dossier Farmaceutico"
 * medicationCodeableConcept.coding ^slicing.discriminator.path = "system"
 * medicationCodeableConcept.coding ^slicing.ordered = false
 * medicationCodeableConcept.coding ^slicing.rules = #open
+* medicationCodeableConcept.coding ^short = "Riferimento/i terminologico/i del prodotto farmaceutico erogato"
+
 * medicationCodeableConcept.coding contains
     ATC 0..1 and AIC 0..1 and
     gruppoEquivalenza 0..1  and eccezioni 0..1
 
 * medicationCodeableConcept.coding[ATC] MS
-
 * medicationCodeableConcept.coding[ATC] ^sliceName = "ATC"
 // * medicationCodeableConcept.coding[ATC].system 1..
 * medicationCodeableConcept.coding[ATC].system = $ATC (exactly)
+* medicationCodeableConcept.coding[ATC].system ^short = "CodeSystem ATC"
 // * medicationCodeableConcept.coding[ATC].code 1..
 // * medicationCodeableConcept.coding[ATC].display 1..
 
 // * medicationCodeableConcept.coding[AIC].system 1..
 * medicationCodeableConcept.coding[AIC].system = $AIC (exactly)
+* medicationCodeableConcept.coding[ATC].system ^short = "CodeSystem AIC"
 // * medicationCodeableConcept.coding[AIC].code 1..
 // * medicationCodeableConcept.coding[AIC].display 1..
 
 // * medicationCodeableConcept.coding[gruppoEquivalenza].system 1..
 * medicationCodeableConcept.coding[gruppoEquivalenza].system = $gruppo-equivalenza (exactly)
+* medicationCodeableConcept.coding[ATC].system ^short = "CodeSystem Gruppo di Equivalenza"
 // * medicationCodeableConcept.coding[gruppoEquivalenza].code 1..
 // * medicationCodeableConcept.coding[gruppoEquivalenza].display 1..
 
@@ -78,6 +85,7 @@ Description: "Profilo MedicationDispense per Dossier Farmaceutico"
 * subject.identifier.value 1..
 * subject.identifier.value ^short = "Codice Fiscale"
 * subject.display 0.. 
+* subject ^short = "Riferimento al paziente per il quale il prodotto farmaceutico è stato erogato"
 * performer 1..
 * performer ^slicing.discriminator.type = #type
 * performer ^slicing.discriminator.path = "$this"
@@ -85,6 +93,7 @@ Description: "Profilo MedicationDispense per Dossier Farmaceutico"
 * performer contains
     CFErogatore 1..1 
 	// and    CodiceStrutturaErogatore 1..1 and    ASLErogatore 1..1
+* performer[CFErogatore] ^short = "Identificativo dell'erogatore del farmaco"
 * performer[CFErogatore].actor.identifier 1..
 * performer[CFErogatore].actor.identifier.system 1..
 * performer[CFErogatore].actor.identifier.system = $CF (exactly)
@@ -102,6 +111,7 @@ Description: "Profilo MedicationDispense per Dossier Farmaceutico"
 // * performer[ASLErogatore].actor.identifier.value ^short = "Codice FLS11 dell'erogatore"
 * location  only Reference(LocationErogazione) 
 * location.reference 0..1
+* location.reference ^short = "Riferimento all'ubicazione dell'erogatore"
 * quantity 1..
 * quantity.value 1..
 * quantity.value ^short = "Numero confezioni erogate"
